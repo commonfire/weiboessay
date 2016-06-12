@@ -2,6 +2,7 @@ package oldbackup.semantic_rules_analysis;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import org.ansj.test.WordSegAnsj;
@@ -17,7 +18,7 @@ public class SentenceProcessor {
 	 * @param blogContent  输入博文内容
 	 * @return  返回分割的句子列表
 	 */
-	public static ArrayList<String> SplitToSentences(String blogContent){
+	public static List<String> SplitToSentences(String blogContent){
 		ArrayList<String> sentenceList = new ArrayList<String>();
 		if(blogContent!=null){
 			String[] sentenceArray = blogContent.split("。|；|！|？|\\.|;|!|\\?|\\s+");
@@ -38,8 +39,8 @@ public class SentenceProcessor {
 	 * @throws Exception
 	 */
 	public double sentenceDistance(String sentence1,String sentence2) throws Exception{
-		Vector<String> str1 = WordSegAnsj.split(sentence1);     //对句子1分词
-		Vector<String> str2 = WordSegAnsj.split(sentence2);     //对句子2分词
+		List<String> str1 = WordSegAnsj.split(sentence1);     //对句子1分词
+		List<String> str2 = WordSegAnsj.split(sentence2);     //对句子2分词
 		double distance = SentSimilarity.getSimilarity(str1, str2);
 		return distance;
 	}

@@ -2,6 +2,7 @@ package oldbackup.semantic_rules_analysis;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -21,7 +22,7 @@ public class SentSimilarity {
 	 * @param T2
 	 * @return
 	 */
-	public static double getSimilarity(Vector<String> T1, Vector<String> T2) throws Exception {
+	public static double getSimilarity(List<String> T1, List<String> T2) throws Exception {
 		//System.out.println("T1:"+T1+"-----T2:"+T2);
 		int size = 0 , size2 = 0 ;
 	    if ( T1 != null && ( size = T1.size() ) > 0 && T2 != null && ( size2 = T2.size() ) > 0 ) {
