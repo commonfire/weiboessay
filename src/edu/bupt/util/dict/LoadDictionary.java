@@ -14,12 +14,13 @@ import edu.bupt.util.jdbc.SQLHelper;
  * @version 创建时间 2016年6月6日下午11:24:13 1.0
  */
 public class LoadDictionary {
-    private static Map<String, Object> positiveSentimentWords;   //积极情感词库词语
-    private static Map<String, Object> negativeSentimentWords;   //消极情感词库词语
-    private static Map<String, Object> negativeAdverbs;          //否定副词词语
-    private static Map<String, Object> emoticons;                //表情符号库
-    private static Map<String, Object> adverbs;					 //程度副词
-    private static List<String> stopWords;  					 //停用词
+    private static Map<String, Object> positiveSentimentWords;   // 积极情感词库词语
+    private static Map<String, Object> negativeSentimentWords;   // 消极情感词库词语
+    private static Map<String, Object> negativeAdverbs;          // 否定副词词语
+    private static Map<String, Object> adverbs;					 // 程度副词
+    private static List<String> adversatives;			     // “转折”连词词典
+    private static Map<String, Object> emoticons;                // 表情符号库
+    private static List<String> stopWords;  					 // 停用词
  
 
 	/**
@@ -138,6 +139,33 @@ public class LoadDictionary {
 		}
 	}
 	
+	
+	/**
+	 * 从数据库中加载“转折”连词词典
+	 */
+	public static void loadAdversativesDic() {
+    	Connection conn = SQLHelper.getConnection();
+    	String sql = "select * from adversative_dictionary";
+		ResultSet rs;
+		try {
+			rs = SQLHelper.executeQuery(sql, null, conn);
+			adversatives = LoadDictionaryHelper.loadStopword(rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	
+	
 	/**
 	 * 从数据库中加载停用词词典
 	 */
@@ -192,10 +220,15 @@ public class LoadDictionary {
 	}
 
 
+	public static List<String> getAdversatives() {
+		return adversatives;
+	}
+
+
 	public static void main(String[] args) {
 /*		loadPositiveSentimentWordsDic();
 		System.out.println(positiveSentimentWords);*/
-		loadAdverbsDic();
-		System.out.println(adverbs);
+		loadAdversativesDic();
+		System.out.println(adversatives);
 	}
 }
