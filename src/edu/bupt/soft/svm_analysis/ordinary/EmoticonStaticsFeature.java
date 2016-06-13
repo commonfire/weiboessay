@@ -1,6 +1,5 @@
-package edu.bupt.soft.svm_analysis.innovative;
+package edu.bupt.soft.svm_analysis.ordinary;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,26 +7,27 @@ import java.util.regex.Pattern;
 import edu.bupt.util.dict.LoadDictionary;
 
 /**
- * 分析复合句中的表情个数特征
+ * 分析微博中的表情个数特征
  * @author DELL
- * @version 创建时间 2016年6月13日上午11:39:34 1.0
+ * @version 创建时间 2016年6月13日下午4:53:29 1.0
  */
 public class EmoticonStaticsFeature {
+	
 	static {
 		LoadDictionary.loadEmoticonDic();            // 从数据库中加载表情符号库
 	}
 	
 	/**
-	 * 计算复合句中的表情个数特征
-	 * @param complexSentence  待分析的复合句
-	 * @return				      返回复合句中正、中、负表情个数特征值
+	 * 计算微博中的表情个数特征
+	 * @param blog			      待分析的微博
+	 * @return				      返回微博中正、中、负表情个数特征值
 	 */
-	public static int[] computeEmoticonStaticsFeature(String complexSentence) {
+	public static int[] computeEmoticonStaticsFeature(String blog) {
 		int[] result = new int[3];  // result数组分别用于存储正、中、负表情个数
-		if (null == complexSentence || "" == complexSentence) return result;
+		if (null == blog || "" == blog) return result;
 		Map<String,Object> emoticonMap = LoadDictionary.getEmoticons();
 		Pattern p = Pattern.compile("\\[(.{1,8}?)\\]");
-		Matcher m = p.matcher(complexSentence);
+		Matcher m = p.matcher(blog);
 		while (m.find()) {
 			String emoticon = m.group(1);
 			//System.out.println(emoticon);
@@ -38,10 +38,5 @@ public class EmoticonStaticsFeature {
 			}
 		}
 		return result;
-	}
-	
-	public static void main(String[] args) {
-		int[] s = computeEmoticonStaticsFeature("考验来了[晕][晕][晕][晕][晕][抓狂][抓狂][抓狂][抓狂][抓狂][抓狂]");
-		System.out.println(Arrays.toString(s));
 	}
 }
