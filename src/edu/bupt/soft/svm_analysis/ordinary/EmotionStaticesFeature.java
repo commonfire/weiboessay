@@ -1,0 +1,57 @@
+package edu.bupt.soft.svm_analysis.ordinary;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.zjd.nlpir.NlipirTools;
+
+import edu.bupt.util.dict.LoadDictionary;
+
+/**
+ * 分析微博中基础情感词的（个数）特征
+ * @author DELL
+ * @version 创建时间 2016年6月13日下午3:36:59 1.0
+ */
+public class EmotionStaticesFeature {
+	static {
+		LoadDictionary.loadPositiveSentimentWordsDic();  // 从数据库中加载基础积极情感词典
+		LoadDictionary.loadNegativeSentimentWordsDic();  // 从数据库中加载基础消极情感词典
+	}
+	
+	/**
+	 * 计算微博中正负面基础情感词的（个数）特征
+	 * @param blog  	微博文本内容
+	 * @return			返回微博中正、负情感词个数特征值
+	 * @throws Exception 
+	 */
+	public static int[] computeEmotionStaticsFeature(String blog) throws Exception {
+		int[] result = new int[2];
+		if (null == blog || "" == blog) return result;
+		String blog1 = filterEmoticon(blog);
+		List<String> wordBag = NlipirTools.parse(blog1, 0); // 对微博进行分词
+		for (String word : wordBag) {
+			if (LoadDictionary.getNegativeSentimentWords().containsKey(word)) result[0]++;   //记录负面情感词个数
+			if (LoadDictionary.getPositiveSentimentWords().containsKey(word)) result[1]++;   //记录正面情感词个数
+		}
+		return result;
+	}
+	
+	/**
+	 * 去除微博中含有的表情符号
+	 * @param blog    				可能含有表情符号的微博
+	 * @return 						已经去除表情符号的微博
+	 */
+	private static String filterEmoticon(String blog) {
+		Pattern pattern = Pattern.compile("\\[(.{1,8}?)\\]");
+		Matcher m = pattern.matcher(blog);
+		String result = m.replaceAll("");
+		return result;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		int[] result = computeEmotionStaticsFeature("我很高兴呀[高兴]");
+		System.out.println(Arrays.toString(result));
+	}
+}

@@ -33,7 +33,6 @@ public class NlipirTools {
 		byte[] resBytes = nlpir.NLPIR_ParagraphProcess(str.getBytes("UTF-8"), needPOS); //1表示分词带有词性标注
 		String tmpStr = new String(resBytes, "UTF-8");
 		String[] tmpArray = tmpStr.split("\\s+");
-		System.out.println(tmpArray.length);
 		result = Arrays.asList(tmpArray).subList(0, tmpArray.length-1);  //去除最后一个空格串
 		
 		//System.out.println("分词结果: " + new String(resBytes, "UTF-8"));
