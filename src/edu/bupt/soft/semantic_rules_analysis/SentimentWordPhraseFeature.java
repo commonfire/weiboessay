@@ -67,7 +67,6 @@ public class SentimentWordPhraseFeature {
 		return leftValue * rightValue;
 	}
 	
-	
 	public static void main(String[] args) throws Exception {
 		String testStr = "我太高兴了";
 		System.out.println(computeSentimentWordPhraseValue(testStr));

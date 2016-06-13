@@ -32,9 +32,9 @@ public class EmoticonStaticsFeature {
 			String emoticon = m.group(1);
 			//System.out.println(emoticon);
 			if (emoticonMap.containsKey(emoticon)) {
-				if ((int)emoticonMap.get(emoticon) == 1) result[0]++;
-				else if ((int)emoticonMap.get(emoticon) == 0) result[1]++;
-				else result[2]++;
+				if ((int)emoticonMap.get(emoticon) == 1) result[0]++;        // 记录正向表情个数
+				else if ((int)emoticonMap.get(emoticon) == 0) result[1]++;   // 记录中性表情个数
+				else result[2]++;    // 记录负性表情个数
 			}
 		}
 		return result;

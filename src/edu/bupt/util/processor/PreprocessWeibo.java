@@ -3,6 +3,8 @@ package edu.bupt.util.processor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.bupt.util.fileprocess.MyFileReader;
 import edu.bupt.util.fileprocess.MyFileWriter;
@@ -40,6 +42,18 @@ public class PreprocessWeibo {
 			//String s8 = s7.replaceAll(pattern6,"");
 			result.add(s7);
 		}
+		return result;
+	}
+	
+	/**
+	 * 去除微博中含有的表情符号
+	 * @param blog    				可能含有表情符号的微博
+	 * @return 						已经去除表情符号的微博
+	 */
+	public static String filterEmoticon(String blog) {
+		Pattern pattern = Pattern.compile("\\[(.{1,8}?)\\]");
+		Matcher m = pattern.matcher(blog);
+		String result = m.replaceAll("");
 		return result;
 	}
 	
