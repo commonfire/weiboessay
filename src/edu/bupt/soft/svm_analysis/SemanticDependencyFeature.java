@@ -11,7 +11,7 @@ import edu.bupt.util.https.HttpUtils;
  * @author DELL
  * @version 创建时间 2016年6月12日下午5:07:37 1.0
  */
-public class SemanticDependencAnalysisByLTP {
+public class SemanticDependencyFeature {
 	
 	/**
 	 * 对复合整句进行基于LTP平台进行语义依存分析，获取“句间关系”特征
@@ -20,7 +20,7 @@ public class SemanticDependencAnalysisByLTP {
 	 * @throws IOException 
 	 * @throws ClientProtocolException 
 	 */
-	public static int analyseSemanticDependencyByLTP(String complexSentence) throws ClientProtocolException, IOException {
+	public static int computeSemanticDependencyFeature(String complexSentence) throws ClientProtocolException, IOException {
 		// 语言云Restful API请求地址
 		String url = "http://api.ltp-cloud.com/analysis/?api_key=n5Y5v584kMmPSXMaLyYABlxpatwMRUFEaAGB2cgX&text=" + complexSentence + "&pattern=sdp&format=json";
 		String respString = HttpUtils.httpGet(url);
@@ -42,7 +42,7 @@ public class SemanticDependencAnalysisByLTP {
 	}
 	
 	public static void main(String[] args) throws ClientProtocolException, IOException {
-		int value = analyseSemanticDependencyByLTP("你变丑了，但是我依然我爱你");
+		int value = computeSemanticDependencyFeature("你变丑了，但是我依然我爱你");
 		System.out.println(value);
 	}
 }

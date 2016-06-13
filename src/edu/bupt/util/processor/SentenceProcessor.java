@@ -3,6 +3,8 @@ package edu.bupt.util.processor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 微博句子（复合句，简单句）处理
@@ -12,7 +14,7 @@ import java.util.List;
 public class SentenceProcessor {
 	
 	/**
-	 * 输入一篇微博，返回一个复合句的列表
+	 * 输入一篇微博，返回一个复合句的列表（不含句子分隔符）
 	 * @param blog  输入微博内容
 	 * @return      返回分割的复合句列表
 	 */
@@ -29,6 +31,30 @@ public class SentenceProcessor {
 				}	
 			}
 			
+		return sentenceList;
+	}
+	
+	/**
+	 * 输入一篇微博，返回一个复合句的列表（含有句子分隔符）
+	 * @param blog    输入微博内容
+	 * @return        返回含有分隔符的复合句列表
+	 */ 
+	public static List<String> splitToComplicatedSentencesWithDelimiter(String blog){
+		List<String> sentenceList = new ArrayList<String>();
+		if (null == blog) return sentenceList;
+		
+		String regex = "。|；|！|？|\\.|;|!|\\?";
+		Pattern p = Pattern.compile(regex);    
+		Matcher m = p.matcher(blog);
+		String[] sentenceArray = blog.split(regex);
+		if (sentenceArray.length > 0) {
+			int index = 0;
+			while (index < sentenceArray.length) {
+				if (m.find()) sentenceArray[index] += m.group();
+				index++;
+			}
+		} 
+		sentenceList = Arrays.asList(sentenceArray);
 		return sentenceList;
 	}
 	
