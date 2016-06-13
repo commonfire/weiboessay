@@ -26,12 +26,11 @@ public class EmoticonStaticsFeature {
 		int[] result = new int[3];  //result数组分别用于存储正、中、负表情个数
 		if (null == complexSentence || "" == complexSentence) return result;
 		Map<String,Object> emoticonMap = LoadDictionary.getEmoticons();
-		System.out.println(emoticonMap.get("抓狂"));
 		Pattern p = Pattern.compile("\\[(.{1,8}?)\\]");
 		Matcher m = p.matcher(complexSentence);
 		while (m.find()) {
 			String emoticon = m.group(1);
-			System.out.println(emoticon);
+			//System.out.println(emoticon);
 			if (emoticonMap.containsKey(emoticon)) {
 				if ((int)emoticonMap.get(emoticon) == 1) result[0]++;
 				else if ((int)emoticonMap.get(emoticon) == 0) result[1]++;
