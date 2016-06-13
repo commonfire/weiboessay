@@ -124,7 +124,7 @@ public class LoadDictionary {
 		ResultSet rs;
 		try {
 			rs = SQLHelper.executeQuery(sql, null, conn);
-			emoticons = LoadDictionaryHelper.loadDictWords(rs,"Float");          
+			emoticons = LoadDictionaryHelper.loadDictWords(rs,"Integer");          
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -38,7 +38,7 @@ public class SentencePatternsFeature {
 	}
 	
 	private static boolean isRhetoricalQuestion(String complexSentence) {
-		String[] rhetoricalMarker = {"难道","怎么","这么","怎能","哪能","不正是","还不是","谁能不"}; //反问句标识词
+		String[] rhetoricalMarker = {"难道","怎么能","怎么不","这么","怎能","哪能","不正是","还不是","谁能不","谁还能"}; //反问句标识词
 		if (!complexSentence.contains("?") && !complexSentence.contains("？")) return false;
 		else {
 			for (String marker : rhetoricalMarker) {

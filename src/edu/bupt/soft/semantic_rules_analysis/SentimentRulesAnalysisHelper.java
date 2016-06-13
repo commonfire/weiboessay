@@ -79,9 +79,13 @@ public class SentimentRulesAnalysisHelper {
 	 * @return 						    已经去除表情符号的简单句
 	 */
 	public static String filterEmoticon(String originalSimpleSentence) {
-		Pattern pattern = Pattern.compile("\\[.*?\\]");
+		Pattern pattern = Pattern.compile("\\[(.{1,8}?)\\]");
 		Matcher m = pattern.matcher(originalSimpleSentence);
 		String result = m.replaceAll("");
 		return result;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(filterEmoticon("[心][心][心]不知道发生什么了[weixiaoh]"));
 	}
 }
