@@ -1,4 +1,4 @@
-package edu.bupt.soft.svm_analysis.innovative;
+package edu.bupt.soft.svm_analysis.innovative_feature;
 
 import java.io.IOException;
 

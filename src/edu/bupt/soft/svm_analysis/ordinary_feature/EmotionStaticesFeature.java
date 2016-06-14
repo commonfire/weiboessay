@@ -1,4 +1,4 @@
-package edu.bupt.soft.svm_analysis.ordinary;
+package edu.bupt.soft.svm_analysis.ordinary_feature;
 
 import java.util.Arrays;
 import java.util.List;
