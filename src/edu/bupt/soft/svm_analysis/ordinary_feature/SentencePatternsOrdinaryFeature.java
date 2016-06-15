@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  * @author DELL
  * @version 创建时间 2016年6月13日下午9:08:27 1.0
  */
-public class SentencePatternsFeature {
+public class SentencePatternsOrdinaryFeature {
 	
 	/**
 	 * 计算微博中的句型标点特征（即感叹号与问号个数）

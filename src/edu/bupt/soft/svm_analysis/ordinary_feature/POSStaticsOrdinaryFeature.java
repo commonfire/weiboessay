@@ -13,7 +13,7 @@ import edu.bupt.util.processor.PreprocessWeibo;
  * @author DELL
  * @version 创建时间 2016年6月13日下午4:03:06 1.0
  */
-public class POSStaticsFeature {
+public class POSStaticsOrdinaryFeature {
 	
 	static {
 		LoadDictionary.loadStopWordsDic();               // 从数据库中加载停用词词典
@@ -28,8 +28,7 @@ public class POSStaticsFeature {
 	public static int[] computePOSStaticsFeature(String blog) throws Exception {
 		int[] result = new int[4];
 		if (null == blog || "" == blog) return result;
-		String blog1 = PreprocessWeibo.filterEmoticon(blog);  // 过滤微博中的表情符号
-		List<String> wordBag = NlipirTools.parse(blog1, 1);   // 对微博进行分词
+		List<String> wordBag = NlipirTools.parse(blog, 1);   // 对微博进行分词
 		for (String word : wordBag) {
 			String word1 = word.substring(word.indexOf("/") + 1, word.length());
 			if (word1.equals("n")) {      //保留名词
@@ -42,7 +41,7 @@ public class POSStaticsFeature {
 				result[3]++;
 			}
 		}
-		System.out.println(wordBag);
+		//System.out.println(wordBag);
 		return result;
 	}
 	

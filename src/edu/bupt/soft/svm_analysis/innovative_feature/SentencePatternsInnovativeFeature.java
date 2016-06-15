@@ -9,7 +9,7 @@ import edu.bupt.util.processor.SentenceProcessor;
  * @author DELL
  * @version 创建时间 2016年6月13日上午8:30:25 1.0
  */
-public class SentencePatternsFeature {
+public class SentencePatternsInnovativeFeature {
 	
 	/**
 	 * 计算复合句的句型特点（感叹号与问号）特征值
@@ -21,8 +21,8 @@ public class SentencePatternsFeature {
 		int result = 0;
 		if (null == complexSentence || 1 == complexSentence.length()) return 0; // 此时句子为空，只有一个句子分隔符（由于“?!!!”此类不规范情况）
 		for (String sentence : sentenceList) {
-			if (isExclamatorySentence(sentence)) result = 1;  // 该复合句为感叹句，对应01
-			if (isRhetoricalQuestion(complexSentence)) result += 1 << 1;  // 该复合句为反问句，对应10
+			if (isRhetoricalQuestion(complexSentence)) result = 1;  // 该复合句为感叹句，对应01
+			if (isExclamatorySentence(sentence)) result += 1 << 1;  // 该复合句为反问句，对应10
 		}
 		return result;
 	}

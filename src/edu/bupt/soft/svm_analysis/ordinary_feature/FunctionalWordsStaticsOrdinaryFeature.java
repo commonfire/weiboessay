@@ -13,7 +13,7 @@ import edu.bupt.util.dict.LoadDictionary;
  * @author DELL
  * @version 创建时间 2016年6月13日下午5:21:55 1.0
  */
-public class FunctionalWordsStaticsFeature {
+public class FunctionalWordsStaticsOrdinaryFeature {
 	
 	static {
 		LoadDictionary.loadAdverbsDic();    			 // 从数据库中加载程度副词
@@ -64,8 +64,7 @@ public class FunctionalWordsStaticsFeature {
 	private static int computeFunctionalWordsStaticsFeature(String blog, Map<String, Object> wordDicMap) throws Exception {
 		int count = 0;
 		if (null == blog || "" == blog) return count;
-		String blog1 = SentimentRulesAnalysisHelper.filterEmoticon(blog);   // 去除微博中含有的表情符号
-		List<String> wordBag = NlipirTools.parse(blog1, 0); // 对微博进行分词
+		List<String> wordBag = NlipirTools.parse(blog, 0); // 对微博进行分词
 		for (String word : wordBag) {
 			if (wordDicMap.containsKey(word)) count++;
 		}
@@ -82,8 +81,7 @@ public class FunctionalWordsStaticsFeature {
 	private static int computeFunctionalWordsStaticsFeature(String blog, List<String> wordDicList) throws Exception {
 		int count = 0;
 		if (null == blog || "" == blog) return count;
-		String blog1 = SentimentRulesAnalysisHelper.filterEmoticon(blog);   // 去除微博中含有的表情符号
-		List<String> wordBag = NlipirTools.parse(blog1, 0); // 对微博进行分词
+		List<String> wordBag = NlipirTools.parse(blog, 0); // 对微博进行分词
 		for (String word : wordBag) {
 			if (wordDicList.contains(word)) count++;
 		}

@@ -11,10 +11,10 @@ import edu.bupt.util.https.HttpUtils;
  * @author DELL
  * @version 创建时间 2016年6月12日下午5:07:37 1.0
  */
-public class SemanticDependencyFeature {
+public class SemanticDependencyInnovativeFeature {
 	
 	/**
-	 * 对复合整句进行基于LTP平台进行语义依存分析，获取“句间关系”特征
+	 * 对复合整句进行基于LTP平台进行语义依存分析，获取“句间关系”特征值
 	 * @param complexSentence  待分析的复合整句
 	 * @return				      表示复合句中句间四种关系的整数（由4为二进制数而得）
 	 * @throws IOException 

@@ -16,7 +16,7 @@ import edu.bupt.util.processor.SentenceProcessor;
  * @author DELL
  * @version 创建时间 2016年6月13日下午3:36:59 1.0
  */
-public class EmotionStaticesFeature {
+public class EmotionStaticesOrdinaryFeature {
 	static {
 		LoadDictionary.loadPositiveSentimentWordsDic();  // 从数据库中加载基础积极情感词典
 		LoadDictionary.loadNegativeSentimentWordsDic();  // 从数据库中加载基础消极情感词典
@@ -31,11 +31,10 @@ public class EmotionStaticesFeature {
 	public static int[] computeEmotionStaticsFeature(String blog) throws Exception {
 		int[] result = new int[2];
 		if (null == blog || "" == blog) return result;
-		String blog1 = PreprocessWeibo.filterEmoticon(blog);    //过滤微博中的表情符号
-		List<String> wordBag = NlipirTools.parse(blog1, 0);     // 对微博进行分词
+		List<String> wordBag = NlipirTools.parse(blog, 0);     // 对微博进行分词
 		for (String word : wordBag) {
-			if (LoadDictionary.getNegativeSentimentWords().containsKey(word)) result[1]++;   //记录负面情感词个数
 			if (LoadDictionary.getPositiveSentimentWords().containsKey(word)) result[0]++;   //记录正面情感词个数
+			if (LoadDictionary.getNegativeSentimentWords().containsKey(word)) result[1]++;   //记录负面情感词个数
 		}
 		return result;
 	}

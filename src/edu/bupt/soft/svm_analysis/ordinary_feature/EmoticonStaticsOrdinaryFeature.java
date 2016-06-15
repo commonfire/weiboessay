@@ -11,14 +11,14 @@ import edu.bupt.util.dict.LoadDictionary;
  * @author DELL
  * @version 创建时间 2016年6月13日下午4:53:29 1.0
  */
-public class EmoticonStaticsFeature {
+public class EmoticonStaticsOrdinaryFeature {
 	
 	static {
 		LoadDictionary.loadEmoticonDic();            // 从数据库中加载表情符号库
 	}
 	
 	/**
-	 * 计算微博中的表情个数特征
+	 * 计算微博中的表情（正/中/负）个数特征
 	 * @param blog			      待分析的微博
 	 * @return				      返回微博中正、中、负表情个数特征值
 	 */

@@ -24,13 +24,12 @@ public class SentenceProcessor {
 		
 		String[] sentenceArray = blog.split("。|；|！|？|\\.|;|!|\\?"); //复合句分隔符
 		sentenceList = new ArrayList<String>(Arrays.asList(sentenceArray));
-			for (int i = sentenceList.size() - 1; i>=0; i--) {
+			for (int i = sentenceList.size() - 1; i >= 0; i--) {
 				if (sentenceList.get(i).equals("")) {
 					// 删除空句（如由于“！！”造成空句）
 					sentenceList.remove(sentenceList.get(i));
 				}	
 			}
-			
 		return sentenceList;
 	}
 	
@@ -54,7 +53,13 @@ public class SentenceProcessor {
 				index++;
 			}
 		} 
-		sentenceList = Arrays.asList(sentenceArray);
+		sentenceList = new ArrayList<String>(Arrays.asList(sentenceArray));
+		for (int i = sentenceList.size() - 1; i >= 0; i--) {
+			if (1 == sentenceList.get(i).length()) {
+				// 删除只有一个标点“空句”（如由于“！！”造成空句）
+				sentenceList.remove(sentenceList.get(i));
+			}	
+		}
 		return sentenceList;
 	}
 	
@@ -79,6 +84,8 @@ public class SentenceProcessor {
 	
 
 	public static void main(String[] args) {
-		
+		String blog = "算了豆豆时辰命理很好 不管信否 希望他能前途光明 善良有情义。";
+		List<String> list = splitToSimpleSentences(blog);
+		System.out.println(list);
 	}
 }

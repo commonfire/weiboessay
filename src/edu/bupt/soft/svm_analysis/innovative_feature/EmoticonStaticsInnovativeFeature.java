@@ -12,7 +12,7 @@ import edu.bupt.util.dict.LoadDictionary;
  * @author DELL
  * @version 创建时间 2016年6月13日上午11:39:34 1.0
  */
-public class EmoticonStaticsFeature {
+public class EmoticonStaticsInnovativeFeature {
 	static {
 		LoadDictionary.loadEmoticonDic();            // 从数据库中加载表情符号库
 	}

@@ -38,6 +38,7 @@ public class SentimentWordPhraseFeature {
 		int sentiPower; 
 		for (String word : wordBagNoStopWords) {
 			if ((sentiPower = SentimentRulesAnalysisHelper.isSentimentWord(word)) != 0) {
+				//System.out.println(word);
 				value += computeValueBySlideWindow(word, sentiPower, wordBagNoStopWords, 3); //利用滑动窗口计算每个中心情感词构成的情感极性短语的极性值
 			}
 		}
