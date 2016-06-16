@@ -6,6 +6,7 @@ import edu.bupt.soft.svm_analysis.innovative_feature.EmoticonStaticsInnovativeFe
 import edu.bupt.soft.svm_analysis.innovative_feature.SemanticDependencyInnovativeFeature;
 import edu.bupt.soft.svm_analysis.innovative_feature.SentencePatternsInnovativeFeature;
 import edu.bupt.soft.svm_analysis.innovative_feature.SentimentWordPhraseInnovativeFeature;
+import edu.bupt.soft.svm_analysis.innovative_feature.SimpleSentenceRelationInnovativeFeature;
 import edu.bupt.soft.svm_analysis.ordinary_feature.EmoticonStaticsOrdinaryFeature;
 import edu.bupt.soft.svm_analysis.ordinary_feature.EmotionStaticesOrdinaryFeature;
 import edu.bupt.soft.svm_analysis.ordinary_feature.FunctionalWordsStaticsOrdinaryFeature;
@@ -74,9 +75,13 @@ public class GenerateLibsvmData {
 		List<String> sentences = SentenceProcessor.splitToComplicatedSentencesWithDelimiter(blog);
 		int maxSentenceNum = Math.min(sentences.size(), 8);
 		for (int i = 0; i < maxSentenceNum; i++) {
-			// 计算对复合句i进行基于LTP平台进行语义依存分析，获取“句间关系”特征值，index为15+i*6
+			/*// 计算对复合句i进行基于LTP平台进行语义依存分析，获取“句间关系”特征值，index为15+i*6
 			int semanticDependencyInnovativeFeature = SemanticDependencyInnovativeFeature.computeSemanticDependencyFeature(sentences.get(i));
-			addFeatureToDataset(sb, index, semanticDependencyInnovativeFeature); index++;
+			addFeatureToDataset(sb, index, semanticDependencyInnovativeFeature); index++;*/
+			
+			//计算复合句i中的“句间关系”特征值，index为15+i*6
+			int simpleSentenceRelationInnovativeFeature = SimpleSentenceRelationInnovativeFeature.computeSimpleSentenceRelationFeature(sentences.get(i));
+			addFeatureToDataset(sb, index, simpleSentenceRelationInnovativeFeature); index++;
 			
 			// 计算复合句i的句型特点（感叹号与问号）特征值，index为16+i*6
 			int sentencePatternsInnovativeFeature = SentencePatternsInnovativeFeature.computeSentencePatternsFeature(sentences.get(i));
@@ -108,7 +113,13 @@ public class GenerateLibsvmData {
 	
 	
 	public static void main(String[] args) throws Exception {
-		String blog = "今天很不高兴[怒][吃惊][嘻嘻]!!!!？？！";
-		System.out.println(generateWeiboLibsvmData(blog, 1));
+		long start = System.currentTimeMillis();
+		final String blog = "尽管今天很不高兴[怒][吃惊][嘻嘻]!!!!？？！";
+		for (int i = 0; i < 2; i++) {
+			Thread.sleep(6);
+			System.out.println("i： "+i+ "   "+generateWeiboLibsvmData(blog, 1));
+		}
+		long end = System.currentTimeMillis();
+		System.out.println("共耗时："+(end-start));
 	}
 }

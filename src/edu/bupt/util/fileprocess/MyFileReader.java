@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import oracle.sql.DATE;
+
 import com.mysql.fabric.xmlrpc.base.Array;
 
 /**
@@ -33,5 +35,18 @@ public class MyFileReader {
 		br.close();
 		return fileContent;
 	}
-
+	public static void main(String[] args) throws IOException, InterruptedException {
+		long start = System.currentTimeMillis();
+		List<String> fileContent = new ArrayList<String>();
+		fileContent = MyFileReader.readFile("D:\\test1");
+		int count = 0;
+		for (String str : fileContent) {
+			Thread.sleep(6);
+			count++;
+			System.out.println(str);
+			if (count >= 200) break;
+		}
+		long end = System.currentTimeMillis();
+		System.out.println(end-start);
+	}
 }

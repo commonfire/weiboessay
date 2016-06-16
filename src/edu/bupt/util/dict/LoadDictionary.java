@@ -18,7 +18,7 @@ public class LoadDictionary {
     private static Map<String, Object> negativeSentimentWords;   // 消极情感词库词语
     private static Map<String, Object> negativeAdverbs;          // 否定副词词语
     private static Map<String, Object> adverbs;					 // 程度副词
-    private static List<String> adversatives;			     // “转折”连词词典
+    private static List<String> adversatives;			         // “转折”连词词典
     private static Map<String, Object> emoticons;                // 表情符号库
     private static List<String> stopWords;  					 // 停用词
  

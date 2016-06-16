@@ -90,7 +90,7 @@ public class HttpUtils {
 				//jsonResult = JSONObject.fromObject(str);
 				EntityUtils.consume(entity);
 			}
-			else System.out.println(response.getStatusLine().getStatusCode());
+			else System.out.println("错误状态码： "+response.getStatusLine().getStatusCode());
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
