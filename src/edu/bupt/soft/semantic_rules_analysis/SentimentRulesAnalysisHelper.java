@@ -20,7 +20,7 @@ public class SentimentRulesAnalysisHelper {
 	 * 计算左/右window区间中否定词/程度副词对中心情感词的附加权值
 	 * @param startIndex   			区间起始点
 	 * @param endIndex				区间结束点
-	 * @param sentiPower 				基础情感词极性值
+	 * @param sentiPower 			基础情感词极性值
 	 * @param negativeAdverbsDic	否定词词典
 	 * @param adverbsDic			程度副词词典
 	 * @return						对中心情感词的附加权值

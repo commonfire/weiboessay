@@ -19,7 +19,7 @@ public class SentimentWordPhraseInnovativeFeature {
 	 * @throws Exception 
 	 */
 	public static double computeSentimentWordPhraseValue(String complexSentence) throws Exception {
-		List<String> simpleSentences = SentenceProcessor.splitToSimpleSentences(complexSentence);
+		List<String> simpleSentences = SentenceProcessor.splitToSimpleSentences(complexSentence); // 将复合句拆分为简单句集合
 		double result = 0;
 		for (String simpleSentence : simpleSentences) {
 			result += SentimentWordPhraseFeature.computeSentimentWordPhraseValue(simpleSentence);
