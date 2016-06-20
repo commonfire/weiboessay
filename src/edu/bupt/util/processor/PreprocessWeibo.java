@@ -24,21 +24,21 @@ public class PreprocessWeibo {
 	public static List<String> preprocessWeibo(List<String> fileContent) {
 		List<String> result = new ArrayList<String>();
 		for (String s : fileContent) {
-			String pattern0 = "//@.*";        //去除转发信息
+			String pattern0 = "(//@.*)\t";        //去除转发信息
 			String pattern = "回复@.*?\\:";      //去除“回复”标记
 			String pattern1 = "@.*? ";		     //去除句中@用户标记
 			String pattern2 = "#.*?#";           //去除#话题标记
-			String pattern3 = "@.*";           //去除句末@用户标记
+			String pattern3 = "(@.*)\t";           //去除句末@用户标记
 			String pattern4 = "\\.";             //去除.
-			String pattern5 = "http.*";        //去除http链接
+			String pattern5 = "(http.*)\t";        //去除http链接
 			String pattern6 = "\\/";			 //去除/	
-			String s1 = s.replaceAll(pattern0, "");
+			String s1 = s.replaceAll(pattern0, "\t");
 			String s2 = s1.replaceAll(pattern, "");
 			String s3 = s2.replaceAll(pattern1, "");
 			String s4 = s3.replaceAll(pattern2,"");
-			String s5 = s4.replaceAll(pattern3,"");
+			String s5 = s4.replaceAll(pattern3,"\t");
 			String s6 = s5.replaceAll(pattern4,"");
-			String s7 = s6.replaceAll(pattern5,"");
+			String s7 = s6.replaceAll(pattern5,"\t");
 			String s8 = s7.replaceAll(pattern6,"");
 			result.add(s8);
 		}
@@ -59,10 +59,13 @@ public class PreprocessWeibo {
 	
 	public static void main(String[] args) throws IOException {
 		List<String> fileContent = new ArrayList<String>();
-		for (int i = 1; i <=2; i++) {
-			fileContent = MyFileReader.readFile("D:\\weiboprocess\\sentenceprocess\\" + i + "0w.txt");
+		for (int i = 1; i <= 7; i++) {
+			/*fileContent = MyFileReader.readFile("D:\\weiboprocess\\sentenceprocess\\" + i + "0w.txt");
 			List<String> preprocessedWeibo = preprocessWeibo(fileContent);
-			MyFileWriter.writeFile("D:\\weiboprocess\\preprocessedWeibo\\preprocessedWeibo" + i, preprocessedWeibo);
+			MyFileWriter.writeFile("D:\\weiboprocess\\preprocessedWeibo\\preprocessedWeibo" + i, preprocessedWeibo);*/
+			fileContent = MyFileReader.readFile("D:\\weiboprocess\\corpus\\original\\weibo_corpus" + i + ".txt");
+			List<String> preprocessedWeibo = preprocessWeibo(fileContent);
+			MyFileWriter.writeFile("D:\\weiboprocess\\corpus\\processed\\weibo_corpus" + i + ".txt", preprocessedWeibo);
 		}
 		
 	}
