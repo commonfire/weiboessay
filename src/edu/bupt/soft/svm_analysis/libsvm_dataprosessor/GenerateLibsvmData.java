@@ -1,5 +1,6 @@
 package edu.bupt.soft.svm_analysis.libsvm_dataprosessor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.bupt.soft.svm_analysis.innovative_feature.EmoticonStaticsInnovativeFeature;
@@ -12,6 +13,8 @@ import edu.bupt.soft.svm_analysis.ordinary_feature.EmotionStaticesOrdinaryFeatur
 import edu.bupt.soft.svm_analysis.ordinary_feature.FunctionalWordsStaticsOrdinaryFeature;
 import edu.bupt.soft.svm_analysis.ordinary_feature.POSStaticsOrdinaryFeature;
 import edu.bupt.soft.svm_analysis.ordinary_feature.SentencePatternsOrdinaryFeature;
+import edu.bupt.util.fileprocess.MyFileReader;
+import edu.bupt.util.fileprocess.MyFileWriter;
 import edu.bupt.util.processor.PreprocessWeibo;
 import edu.bupt.util.processor.SentenceProcessor;
 
@@ -21,6 +24,8 @@ import edu.bupt.util.processor.SentenceProcessor;
  * @version 创建时间 2016年6月15日上午9:24:45 1.0
  */
 public class GenerateLibsvmData {
+	
+	private static int complexSentenceNumThreshold = 9;
 	
 	/**
 	 * 生成用于微博情感分析的libsvm要求格式的数据集
@@ -73,7 +78,7 @@ public class GenerateLibsvmData {
 		
 		// 计算“复合句式下的句子结构特征”，共有6*maxSentenceNum个特征，index为15~（14+6*maxSentenceNum）
 		List<String> sentences = SentenceProcessor.splitToComplicatedSentencesWithDelimiter(blog);
-		int maxSentenceNum = Math.min(sentences.size(), 8);
+		int maxSentenceNum = Math.min(sentences.size(), complexSentenceNumThreshold);  
 		for (int i = 0; i < maxSentenceNum; i++) {
 			/*// 计算对复合句i进行基于LTP平台进行语义依存分析，获取“句间关系”特征值，index为15+i*6
 			int semanticDependencyInnovativeFeature = SemanticDependencyInnovativeFeature.computeSemanticDependencyFeature(sentences.get(i));
@@ -113,13 +118,19 @@ public class GenerateLibsvmData {
 	
 	
 	public static void main(String[] args) throws Exception {
-		long start = System.currentTimeMillis();
-		final String blog = "尽管今天很不高兴[怒][吃惊][嘻嘻]!!!!？？！";
-		for (int i = 0; i < 2; i++) {
-			Thread.sleep(6);
-			System.out.println("i： "+i+ "   "+generateWeiboLibsvmData(blog, 1));
+		List<String> fileContent = new ArrayList<String>();
+		List<String> preprocessedWeibo = new ArrayList<String>();
+		String[] datanode = null;
+		for (int i = 7; i <= 7; i++) {
+			fileContent = MyFileReader.readFile("D:\\weiboprocess\\corpus\\processed\\weibo_corpus" + i + ".txt");
+			for (String blog : fileContent) {
+				datanode = blog.split("\t");
+				preprocessedWeibo.add(generateWeiboLibsvmData(datanode[0], Double.valueOf(datanode[1])));
+				//System.out.println(datanode[0]+"---"+generateWeiboLibsvmData(datanode[0], Double.valueOf(datanode[1])));
+			}
+			MyFileWriter.writeFile("D:\\weiboprocess\\libsvm\\train\\train_" + i + ".txt", preprocessedWeibo);
+			preprocessedWeibo.clear();
 		}
-		long end = System.currentTimeMillis();
-		System.out.println("共耗时："+(end-start));
+		System.out.println("finished!!");
 	}
 }
