@@ -22,7 +22,7 @@ public class ResultStatics {
 	 * @throws IOException 
 	 */
 	public static Map<String, Index> computeResultStatics(String testFile, String resultFile) throws IOException {
-		List<String> testLabels = TestFileReader.readTestFile(testFile);
+		List<String> testLabels = TestFileReader.readTestFileForSVM(testFile);
 		List<String> resultLabels = MyFileReader.readFile(resultFile);
 		Map<String, Index> result = new HashMap<String, Index>();
 		Index positiveIndex = new Index();

@@ -1,7 +1,10 @@
 package edu.bupt.soft.svm_analysis.libsvm_dataprosessor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Test;
 
 import edu.bupt.soft.svm_analysis.innovative_feature.EmoticonStaticsInnovativeFeature;
 import edu.bupt.soft.svm_analysis.innovative_feature.SemanticDependencyInnovativeFeature;
@@ -29,12 +32,13 @@ public class GenerateLibsvmData {
 	
 	/**
 	 * 生成用于微博情感分析的libsvm要求格式的数据集
-	 * @param blog      待特征量化的微博文本
-	 * @param label		标注好的微博极性分类标签
-	 * @return 返回处理好的一条libsvm格式数据
+	 * @param blog      		待特征量化的微博文本
+	 * @param label				标注好的微博极性分类标签
+	 * @param needNewFeature	是否使用创新的特征：即“复合句式下的句子结构特征”
+	 * @return 					返回处理好的一条libsvm格式数据
 	 * @throws Exception 
 	 */
-	public static String generateWeiboLibsvmData(String blog, double label) throws Exception {
+	public static String generateWeiboLibsvmData(String blog, double label, boolean needNewFeature) throws Exception {
 		String blog1 = PreprocessWeibo.filterEmoticon(blog);    //过滤微博中的表情符号
 		StringBuilder sb = new StringBuilder(label + "  ");  //记录情感极性分类标签
 		int index = 1;  //记录libsvm格式中的“index”标号
@@ -75,32 +79,33 @@ public class GenerateLibsvmData {
 		addFeatureToDataset(sb, index, sentencePatternsOrdinaryFeature[0]); index++;
 		addFeatureToDataset(sb, index, sentencePatternsOrdinaryFeature[1]); index++;
 		
-		
-		// 计算“复合句式下的句子结构特征”，共有6*maxSentenceNum个特征，index为15~（14+6*maxSentenceNum）
-		List<String> sentences = SentenceProcessor.splitToComplicatedSentencesWithDelimiter(blog);
-		int maxSentenceNum = Math.min(sentences.size(), complexSentenceNumThreshold);  
-		for (int i = 0; i < maxSentenceNum; i++) {
-			/*// 计算对复合句i进行基于LTP平台进行语义依存分析，获取“句间关系”特征值，index为15+i*6
-			int semanticDependencyInnovativeFeature = SemanticDependencyInnovativeFeature.computeSemanticDependencyFeature(sentences.get(i));
-			addFeatureToDataset(sb, index, semanticDependencyInnovativeFeature); index++;*/
-			
-			//计算复合句i中的“句间关系”特征值，index为15+i*6
-			int simpleSentenceRelationInnovativeFeature = SimpleSentenceRelationInnovativeFeature.computeSimpleSentenceRelationFeature(sentences.get(i));
-			addFeatureToDataset(sb, index, simpleSentenceRelationInnovativeFeature); index++;
-			
-			// 计算复合句i的句型特点（感叹号与问号）特征值，index为16+i*6
-			int sentencePatternsInnovativeFeature = SentencePatternsInnovativeFeature.computeSentencePatternsFeature(sentences.get(i));
-			addFeatureToDataset(sb, index, sentencePatternsInnovativeFeature); index++;
-			
-			// 计算复合句i中的表情个数特征，index为[17,18,19]+i*6
-			int[] emoticonStaticsInnovativeFeature = EmoticonStaticsInnovativeFeature.computeEmoticonStaticsFeature(sentences.get(i));
-			for (int j = 0; j < emoticonStaticsInnovativeFeature.length; j++) {
-				addFeatureToDataset(sb, index, emoticonStaticsInnovativeFeature[j]); index++;
+		if (needNewFeature) {
+			// 计算“复合句式下的句子结构特征”，共有6*maxSentenceNum个特征，index为15~（14+6*maxSentenceNum）
+			List<String> sentences = SentenceProcessor.splitToComplicatedSentencesWithDelimiter(blog);
+			int maxSentenceNum = Math.min(sentences.size(), complexSentenceNumThreshold);  
+			for (int i = 0; i < maxSentenceNum; i++) {
+				/*// 计算对复合句i进行基于LTP平台进行语义依存分析，获取“句间关系”特征值，index为15+i*6
+				int semanticDependencyInnovativeFeature = SemanticDependencyInnovativeFeature.computeSemanticDependencyFeature(sentences.get(i));
+				addFeatureToDataset(sb, index, semanticDependencyInnovativeFeature); index++;*/
+				
+				//计算复合句i中的“句间关系”特征值，index为15+i*6
+				int simpleSentenceRelationInnovativeFeature = SimpleSentenceRelationInnovativeFeature.computeSimpleSentenceRelationFeature(sentences.get(i));
+				addFeatureToDataset(sb, index, simpleSentenceRelationInnovativeFeature); index++;
+				
+				// 计算复合句i的句型特点（感叹号与问号）特征值，index为16+i*6
+				int sentencePatternsInnovativeFeature = SentencePatternsInnovativeFeature.computeSentencePatternsFeature(sentences.get(i));
+				addFeatureToDataset(sb, index, sentencePatternsInnovativeFeature); index++;
+				
+				// 计算复合句i中的表情个数特征，index为[17,18,19]+i*6
+				int[] emoticonStaticsInnovativeFeature = EmoticonStaticsInnovativeFeature.computeEmoticonStaticsFeature(sentences.get(i));
+				for (int j = 0; j < emoticonStaticsInnovativeFeature.length; j++) {
+					addFeatureToDataset(sb, index, emoticonStaticsInnovativeFeature[j]); index++;
+				}
+				
+				// 计算“情感极性短语极性(特征)值”（利用滑动窗口匹配修饰词），index为20+i*6
+				double sentimentWordPhraseInnovativeFeature = SentimentWordPhraseInnovativeFeature.computeSentimentWordPhraseValue(sentences.get(i));
+				addFeatureToDataset(sb, index, sentimentWordPhraseInnovativeFeature); index++;
 			}
-			
-			// 计算“情感极性短语极性(特征)值”（利用滑动窗口匹配修饰词），index为20+i*6
-			double sentimentWordPhraseInnovativeFeature = SentimentWordPhraseInnovativeFeature.computeSentimentWordPhraseValue(sentences.get(i));
-			addFeatureToDataset(sb, index, sentimentWordPhraseInnovativeFeature); index++;
 		}
 		
 		return sb.toString();
@@ -116,8 +121,8 @@ public class GenerateLibsvmData {
 		if (value != 0) sb.append(index + ":" + value + " ");
 	}
 	
-	
-	public static void main(String[] args) throws Exception {
+	@Test
+	public void generateInnovativeDataTest() throws NumberFormatException, Exception {
 		List<String> fileContent = new ArrayList<String>();
 		List<String> preprocessedWeibo = new ArrayList<String>();
 		String[] datanode = null;
@@ -125,12 +130,31 @@ public class GenerateLibsvmData {
 			fileContent = MyFileReader.readFile("D:\\weiboprocess\\corpus\\processed\\weibo_corpus" + i + ".txt");
 			for (String blog : fileContent) {
 				datanode = blog.split("\t");
-				preprocessedWeibo.add(generateWeiboLibsvmData(datanode[0], Double.valueOf(datanode[1])));
+				preprocessedWeibo.add(generateWeiboLibsvmData(datanode[0], Double.valueOf(datanode[1]),true));  // 采用创新的特征
 				//System.out.println(datanode[0]+"---"+generateWeiboLibsvmData(datanode[0], Double.valueOf(datanode[1])));
 			}
-			MyFileWriter.writeFile("D:\\weiboprocess\\libsvm\\train\\train_" + i + ".txt", preprocessedWeibo);
+			MyFileWriter.writeFile("D:\\weiboprocess\\libsvm\\innovative_train\\train_" + i + ".txt", preprocessedWeibo);
 			preprocessedWeibo.clear();
 		}
 		System.out.println("finished!!");
 	}
+	
+	@Test
+	public void generateTraditionalDataTest() throws NumberFormatException, Exception {
+		List<String> fileContent = new ArrayList<String>();
+		List<String> preprocessedWeibo = new ArrayList<String>();
+		String[] datanode = null;
+		for (int i = 1; i <= 7; i++) {
+			fileContent = MyFileReader.readFile("D:\\weiboprocess\\corpus\\processed\\weibo_corpus" + i + ".txt");
+			for (String blog : fileContent) {
+				datanode = blog.split("\t");
+				preprocessedWeibo.add(generateWeiboLibsvmData(datanode[0], Double.valueOf(datanode[1]),false));  // 不采用创新的特征
+				//System.out.println(datanode[0]+"---"+generateWeiboLibsvmData(datanode[0], Double.valueOf(datanode[1])));
+			}
+			MyFileWriter.writeFile("D:\\weiboprocess\\libsvm\\traditional_train\\train_" + i + ".txt", preprocessedWeibo);
+			preprocessedWeibo.clear();
+		}
+		System.out.println("finished!!");
+	}
+	
 }

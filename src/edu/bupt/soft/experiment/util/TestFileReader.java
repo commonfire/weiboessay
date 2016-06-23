@@ -17,12 +17,12 @@ import org.junit.Test;
 public class TestFileReader {
 	
 	/**
-	 * 读取测试文件中的label值
+	 * 读取用于SVM测试文件中的label值
 	 * @param testFile  	   测试文件名
 	 * @return
 	 * @throws IOException
 	 */
-	public static List<String> readTestFile(String testFile) throws IOException {
+	public static List<String> readTestFileForSVM(String testFile) throws IOException {
 		List<String> fileContent = new ArrayList<String>();
 		File file = new File(testFile);
 		BufferedReader br = new BufferedReader(new FileReader(file));
@@ -37,7 +37,7 @@ public class TestFileReader {
 	
 	@Test
 	public void readFileTest() throws IOException {
-		String testFile = "weibo\\test1w";
-		System.out.println(readTestFile(testFile));
+		String testFile = "weibo\\innovative_svm\\test";
+		System.out.println(readTestFileForSVM(testFile));
 	}
 }
