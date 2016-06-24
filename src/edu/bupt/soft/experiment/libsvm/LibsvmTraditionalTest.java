@@ -29,7 +29,7 @@ public class LibsvmTraditionalTest {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		String trainFile = "weibo\\traditional\\train", testFile = "weibo\\traditional\\test", resultFile = "weibo\\traditional\\result";
+		String trainFile = "weibo\\traditional_svm\\train", testFile = "weibo\\traditional_svm\\test", resultFile = "weibo\\traditional_svm\\result";
 		svmTraditionalTest(trainFile, testFile, resultFile);
 	}
 }

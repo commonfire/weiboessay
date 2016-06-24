@@ -18,7 +18,7 @@ public class SentenceProcessor {
 	 * @param blog  输入微博内容
 	 * @return      返回分割的复合句列表
 	 */
-	public static List<String> splitToComplicatedSentences(String blog){
+	public static List<String> splitToComplexSentences(String blog){
 		List<String> sentenceList = new ArrayList<String>();
 		if (null == blog) return sentenceList;
 		
@@ -38,7 +38,7 @@ public class SentenceProcessor {
 	 * @param blog    输入微博内容
 	 * @return        返回含有分隔符的复合句列表
 	 */ 
-	public static List<String> splitToComplicatedSentencesWithDelimiter(String blog){
+	public static List<String> splitToComplexSentencesWithDelimiter(String blog){
 		List<String> sentenceList = new ArrayList<String>();
 		if (null == blog) return sentenceList;
 		

@@ -17,7 +17,7 @@ public class SentencePatternsInnovativeFeature {
 	 * @return			  			  句型特点特征值
 	 */
 	public static int computeSentencePatternsFeature(String complexSentence) {
-		List<String> sentenceList = SentenceProcessor.splitToComplicatedSentencesWithDelimiter(complexSentence);
+		List<String> sentenceList = SentenceProcessor.splitToComplexSentencesWithDelimiter(complexSentence);
 		int result = 0;
 		if (null == complexSentence || 1 == complexSentence.length()) return 0; // 此时句子为空，只有一个句子分隔符（由于“?!!!”此类不规范情况）
 		for (String sentence : sentenceList) {
@@ -32,12 +32,17 @@ public class SentencePatternsInnovativeFeature {
 	 * @param complexSentence       待分析的复合句
 	 * @return                      判断结果
 	 */
-	private static boolean isExclamatorySentence(String complexSentence) {
+	public static boolean isExclamatorySentence(String complexSentence) {
 		if (complexSentence.contains("!") || complexSentence.contains("！")) return true;
 		return false;
 	}
 	
-	private static boolean isRhetoricalQuestion(String complexSentence) {
+	/**
+	 * 判断复合句是否为反问句
+	 * @param complexSentence    	待分析的复合句
+	 * @return						判断结果
+	 */
+	public static boolean isRhetoricalQuestion(String complexSentence) {
 		String[] rhetoricalMarker = {"难道","怎么能","怎么不","这么","怎能","哪能","不正是","还不是","谁能不","谁还能"}; //反问句标识词
 		if (!complexSentence.contains("?") && !complexSentence.contains("？")) return false;
 		else {
@@ -49,7 +54,7 @@ public class SentencePatternsInnovativeFeature {
 	}
 	
 	public static void main(String[] args) {
-		List<String> sentences = SentenceProcessor.splitToComplicatedSentencesWithDelimiter("难道你不高兴吗？!!!!咱们要不去哪里玩吧！还是改天也可以");
+		List<String> sentences = SentenceProcessor.splitToComplexSentencesWithDelimiter("难道你不高兴吗？!!!!咱们要不去哪里玩吧！还是改天也可以");
 		System.out.println(sentences);
 		for (String sentence : sentences) {
 			System.out.println(computeSentencePatternsFeature(sentence));

@@ -1,13 +1,11 @@
 package edu.bupt.soft.svm_analysis.libsvm_dataprosessor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
 import edu.bupt.soft.svm_analysis.innovative_feature.EmoticonStaticsInnovativeFeature;
-import edu.bupt.soft.svm_analysis.innovative_feature.SemanticDependencyInnovativeFeature;
 import edu.bupt.soft.svm_analysis.innovative_feature.SentencePatternsInnovativeFeature;
 import edu.bupt.soft.svm_analysis.innovative_feature.SentimentWordPhraseInnovativeFeature;
 import edu.bupt.soft.svm_analysis.innovative_feature.SimpleSentenceRelationInnovativeFeature;
@@ -81,7 +79,7 @@ public class GenerateLibsvmData {
 		
 		if (needNewFeature) {
 			// 计算“复合句式下的句子结构特征”，共有6*maxSentenceNum个特征，index为15~（14+6*maxSentenceNum）
-			List<String> sentences = SentenceProcessor.splitToComplicatedSentencesWithDelimiter(blog);
+			List<String> sentences = SentenceProcessor.splitToComplexSentencesWithDelimiter(blog);
 			int maxSentenceNum = Math.min(sentences.size(), complexSentenceNumThreshold);  
 			for (int i = 0; i < maxSentenceNum; i++) {
 				/*// 计算对复合句i进行基于LTP平台进行语义依存分析，获取“句间关系”特征值，index为15+i*6
@@ -141,8 +139,8 @@ public class GenerateLibsvmData {
 	
 	@Test
 	public void generateTraditionalDataTest() throws NumberFormatException, Exception {
-		List<String> fileContent = new ArrayList<String>();
-		List<String> preprocessedWeibo = new ArrayList<String>();
+		List<String> fileContent = null;
+		List<String> preprocessedWeibo = null;
 		String[] datanode = null;
 		for (int i = 1; i <= 7; i++) {
 			fileContent = MyFileReader.readFile("D:\\weiboprocess\\corpus\\processed\\weibo_corpus" + i + ".txt");

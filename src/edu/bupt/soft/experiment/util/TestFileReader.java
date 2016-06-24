@@ -17,18 +17,28 @@ import org.junit.Test;
 public class TestFileReader {
 	
 	/**
-	 * 读取用于SVM测试文件中的label值
+	 * 读取用于测试文件中的label值
 	 * @param testFile  	   测试文件名
+	 * @param methodType 	  采用“svm”方法or基于语义的“semantic”方法
 	 * @return
 	 * @throws IOException
 	 */
-	public static List<String> readTestFileForSVM(String testFile) throws IOException {
+	public static List<String> readTestFile(String testFile, String methodType) throws IOException {
 		List<String> fileContent = new ArrayList<String>();
 		File file = new File(testFile);
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String line = null;
-		while ((line = br.readLine()) != null) {
-			fileContent.add(line.split("  ")[0]);
+		// 读取svm测试文件中的label值
+		if ("svm".equals(methodType)) {
+			while ((line = br.readLine()) != null) {
+				fileContent.add(line.split("  ")[0]);
+			}
+		}
+		// 读取用于基于语义规则方法的测试文件中的label值
+		else {
+			while ((line = br.readLine()) != null) {
+				fileContent.add(line.split("\t")[1] + ".0");
+			}
 		}
 		br.close();
 		return fileContent;
@@ -36,8 +46,14 @@ public class TestFileReader {
 	
 	
 	@Test
-	public void readFileTest() throws IOException {
+	public void readTestFileForSVM() throws IOException {
 		String testFile = "weibo\\innovative_svm\\test";
-		System.out.println(readTestFileForSVM(testFile));
+		System.out.println(readTestFile(testFile,"svm"));
+	}
+	
+	@Test
+	public void readTestFileForSemantics() throws IOException {
+		String testFile = "weibo\\semantics\\test";
+		System.out.println(readTestFile(testFile,"semantic"));
 	}
 }

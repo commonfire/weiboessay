@@ -29,7 +29,7 @@ public class LibsvmInnovativeTest {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		String trainFile = "weibo\\innovative\\train", testFile = "weibo\\innovative\\test", resultFile = "weibo\\innovative\\result";
+		String trainFile = "weibo\\innovative_svm\\train", testFile = "weibo\\innovative_svm\\test", resultFile = "weibo\\innovative_svm\\result";
 		svmInnovativeTest(trainFile, testFile, resultFile);
 	}
 	
