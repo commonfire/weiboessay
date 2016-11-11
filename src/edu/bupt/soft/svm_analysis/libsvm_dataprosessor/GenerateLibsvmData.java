@@ -53,12 +53,19 @@ public class GenerateLibsvmData {
 			index++;
 		}
 		
-		// 计算微博中的表情（正/中/负）个数特征，index为7,8,9
-		int[] emoticonStaticsOrdinaryFeature = EmoticonStaticsOrdinaryFeature.computeEmoticonStaticsFeature(blog);
+		// 基于默认表情库，计算微博中的表情（正/中/负）个数特征，index为7,8,9
+		int[] emoticonStaticsOrdinaryFeature = EmoticonStaticsOrdinaryFeature.computeEmoticonStaticsFeature(blog,null);
 		for (int i = 0; i < emoticonStaticsOrdinaryFeature.length; i++) {
 			addFeatureToDataset(sb, index, emoticonStaticsOrdinaryFeature[i]);
 			index++;
 		}
+/*		
+		// 基于不同规模的自扩充表情库，计算微博中的表情（正/中/负）个数特征，index为7,8,9
+		int[] expandEmoticonStaticsOrdinaryFeature = EmoticonStaticsOrdinaryFeature.computeEmoticonStaticsFeature(blog,"50w");
+		for (int i = 0; i < expandEmoticonStaticsOrdinaryFeature.length; i++) {
+			addFeatureToDataset(sb, index, expandEmoticonStaticsOrdinaryFeature[i]);
+			index++;
+		}*/
 		
 		// 计算否定副词个数特征，index为10
 		int negativeAdverbsNumberFeature = FunctionalWordsStaticsOrdinaryFeature.computeNegativeAdverbsNumberFeature(blog1);

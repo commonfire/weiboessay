@@ -16,19 +16,19 @@ public class LoadExpandedEmoticon {
 	 * @return          返回表情自扩充词典
 	 * @throws IOException
 	 */
-	public static Map<String, Integer> preprocessEmoticon(String fileName) throws IOException {
+	public static Map<String, Object> getExpandedEmoticons(String fileName) throws IOException {
 		List<String> fileContent = MyFileReader.readFile("E:\\emoticon\\" + fileName + ".txt");
-		Map<String, Integer> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		for (String e : fileContent) {
 			String e1 = e.replace("[", "");
 			String e2 = e1.replace("]", "");
 			String[] es = e2.split("=");
-			map.put(es[0], Integer.parseInt(es[1]));
+			map.put(es[0], es[1]);
 		}
 		return map;
 	}
 	
 	public static void main(String[] args) throws IOException {
-		System.out.println(preprocessEmoticon("50w"));
+		System.out.println(getExpandedEmoticons("50w"));
 	}
 }
